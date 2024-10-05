@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("status");
             $table->integer("book-id");
             $table->integer("default_borrow_price");
+            $table->timestamps();
         });
     }
 

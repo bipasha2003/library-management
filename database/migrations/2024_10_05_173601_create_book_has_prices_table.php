@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer("book_id");
             $table->integer("no_of_days_minimum");
             $table->integer("rate_per_day");
+            $table->timestamps();
         });
     }
 

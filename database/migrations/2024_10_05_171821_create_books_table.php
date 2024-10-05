@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("author");
             $table->string("publisher");
             $table->integer("price");
+            $table->timestamps();
         });
     }
 

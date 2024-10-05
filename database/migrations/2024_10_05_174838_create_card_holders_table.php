@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fine_ammounts', function (Blueprint $table) {
+        Schema::create('card_holders', function (Blueprint $table) {
             $table->id();
-            $table->integer("no_of_days");
-            $table->integer("rate_per_day");
+            $table->string("name");
+            $table->string("age");
+            $table->integer("contact");
+            $table->string("email");
+            $table->string("address");
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fine_ammounts');
+        Schema::dropIfExists('card_holders');
     }
 };

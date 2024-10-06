@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class BookIssue extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+    public function bookIssueHasCopies()
+    {
+        return $this->hasMany(BookIssueHasCopies::class,"book_issue_id","id");
+        
+    }
 }

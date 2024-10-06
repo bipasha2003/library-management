@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class CardHolderHasInterst extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    public function cardHolder()
+    {
+        return $this->belongs(CardHolder::class);
+        
+    }
 }

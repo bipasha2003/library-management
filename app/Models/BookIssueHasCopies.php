@@ -12,7 +12,7 @@ class BookIssueHasCopies extends Model
 
     public function bookHasCopies()
     {
-        return $this->h(BookIssueHasCopies::class);
+        return $this->belongsTo(BookIssueHasCopies::class);
         
     }
 }

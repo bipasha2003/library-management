@@ -13,7 +13,7 @@ class CardHolderHasInterst extends Model
 
     public function cardHolder()
     {
-        return $this->belongs(CardHolder::class);
+        return $this->belongsTo(CardHolder::class);
         
     }
 }

@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CardHolder;
 use Illuminate\Http\Request;
 
-class FineAmount extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public $header = "Users";
+    public function index(Request $request)
     {
-        //
+        $data["header"] = $this->header;
+        $data["breadcrums"] = ["Home","Users","List"];
+        return view("users.list",$data); 
     }
 
     /**
@@ -19,7 +23,9 @@ class FineAmount extends Controller
      */
     public function create()
     {
-        //
+        $data["header"] = $this->header;
+        $data["breadcrums"] = ["Home","Users","Create"];
+        return view("users.create",$data);
     }
 
     /**
@@ -43,7 +49,13 @@ class FineAmount extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $cardHolder = CardHolder::find($id);
+        if(empty($cardHolder))
+        abort(404);
+
+        $data["header"] = $this->header;
+        $data["breadcrums"] = ["Home","Users","Edit"];
+        return view("users.edit",$data);
     }
 
     /**

@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class BookIssue extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public $header = "Books";
+
+    public function index(Request $request)
     {
-        //
+        $data["header"] = $this->header;
+        $data["breadcrums"] = ["Home","Books","List"];
+        return view("books.list",$data);
     }
 
     /**
@@ -19,7 +23,9 @@ class BookIssue extends Controller
      */
     public function create()
     {
-        //
+        $data["header"] = $this->header;
+        $data["breadcrums"] = ["Home","Books","Create"];
+        return view("books.create",$data);
     }
 
     /**

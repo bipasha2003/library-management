@@ -3,7 +3,7 @@
     <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                DataTable Example
+                                User List <a href="{{route('userss.create')}}" class="btn btn-primary btn-sm " >Create</a>
                             </div>
                             <div class="card-body border" >
                                 <table id="datatablesSimple">

@@ -5,6 +5,7 @@ use App\Models\Book;
 use App\Traits\WithResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use DataTables;
 
 class BookController extends Controller
 {
@@ -24,8 +25,37 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $data["header"] = $this->header;
-        $data["breadcrums"] = ["Home","Books","List"];
-        return view("books.list",$data);
+        $data["breadcrums"] = ["Home", "Books", "List"];
+
+        $data["rows"] = [];
+        if(\request()->ajax()){
+            $data = Book::select("*");
+            return DataTables::eloquent($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $actionBtn = view("components.books.action-buttons",["row" => $row])->render();
+                    return $actionBtn;
+                })
+                ->addColumn('rent_prices', function($row){
+                    $actionBtn = view("components.books.rent-prices",["row" => $row])->render();
+                    return $actionBtn;
+                })
+                ->addColumn('no_copies', function($row){
+                   
+                    return $row->bookHasCopies()->count();
+                })
+                ->addColumn('default_borrow_price', function($row){
+                   
+                    return $row->bookHasCopies()->first()->default_borrow_price;
+                })
+                ->filterColumn('name', function ($query, $keyword) {
+                        $query->where('name',"LIKE","%".$keyword."%");
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+       
+        return view("books.list", $data);
     }
 
     /**
@@ -182,8 +212,31 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request,string $id)
     {
-        //
+        try {
+            $book = Book::find($id);
+            if ($book && $book->delete()) {
+                return redirect()->back()
+                    ->with("message", "User deleted successfully");
+            }
+            else {
+                if($request->ajax())
+                   return $this->responseFailed("Data could not be Deleted!");
+
+                return redirect()->back()
+                ->with("message", "Book could not be deleted");
+            }
+
+          
+        } catch (\Throwable $th) {
+
+            if ($request->ajax()) {
+                return $this->responseError("Data could not be Deleted! " . $th->getMessage());
+            }
+            return redirect()->back()
+                ->with("message", "Data could not be deleted! " . $th->getMessage());
+        }
+    } 
     }
-}
+

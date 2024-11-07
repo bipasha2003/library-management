@@ -9,23 +9,23 @@
                         Dashboard
                     </a>
                     <div class="sb-sidenav-menu-heading">Resources</div>
-                    <a class="nav-link collapsed @if(request()->routeIs('books.*')) active @endif" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="{{request()->routeIs('books.*')}}" aria-controls="collapseLayouts">
+                    <a class="nav-link collapsed @if(request()->routeIs('books.*')) active @endif" href="#" data-bs-toggle="collapse" data-bs-target="#books" aria-expanded="{{request()->routeIs('books.*')}}" aria-controls="books">
                         <div class="sb-nav-link-icon"><i  class="fas fa-columns"></i></div>
                         Books
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse" id="books" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link  @if(request()->routeIs("books.create")) active @endif" href="{{route('books.create')}}">Create Books</a>
                             <a class="nav-link  @if(request()->routeIs("books.index")) active @endif" href="{{route('books.index')}}" >Book List</a>
                         </nav>
                     </div>
-                    <a class="nav-link collapsed @if(request()->routeIs('users.*')) active @endif" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <a class="nav-link collapsed @if(request()->routeIs('users.*')) active @endif" href="#" data-bs-toggle="collapse" data-bs-target="#users" aria-expanded="false" aria-controls="users">
                         <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                         Users
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse" id="users" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link @if(request()->routeIs("users.create")) active @endif" href="{{route('users.create')}}">Create Users</a>
                             <a class="nav-link   @if(request()->routeIs("users.index")) active @endif" href="{{route('users.index')}}">User List</a>

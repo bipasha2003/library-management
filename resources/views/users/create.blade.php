@@ -7,6 +7,9 @@
                             {{ session()->get('message') }}
                         </small>
                     </div>
+              
+               Create New Users <a href="{{ route('users.index') }}" class="btn btn-primary btn-sm text-right" >Go to List </a>
+                
                 @endif  
  <form method="POST" id="userCreateForm" action="{{ route('users.store') }}" enctype="multipart/form-data" class="form p-3" > 
  @csrf              

@@ -64,7 +64,7 @@
     </div>
     <div class="col-md-4 mb-3">
       <label for="validationDefault03">Default Rent</label>
-      <input type="text" class="form-control" name="default_borrow_price" id="default_borrow_price" value="{{ $book->bookHasCopies()->first()->default_borrow_price }}"  required>
+      <input type="text" class="form-control" name="default_borrow_price" id="default_borrow_price" value="{{ $book->default_borrow_price }}"  required>
       @error('price')
          <small for="" class="text-danger p-1">{{ $message }}</small>
       @enderror

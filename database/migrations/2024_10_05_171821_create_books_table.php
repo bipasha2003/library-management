@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("author");
             $table->string("publisher");
             $table->integer("price");
+            $table->integer("default_borrow_price")->default(0);
             $table->timestamps();
         });
     }

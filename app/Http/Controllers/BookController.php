@@ -19,7 +19,9 @@ class BookController extends Controller
         "name" => "required|min:3",
         "author" => "required|min:3",
         "publisher" => "required|min:3",
-        "price" => "required"
+        "price" => "required",
+        "default_borrow_price" => "required"
+        
     ];
 
     public function index(Request $request)
@@ -44,16 +46,14 @@ class BookController extends Controller
                    
                     return $row->bookHasCopies()->count();
                 })
-                ->addColumn('default_borrow_price', function($row){
-                   
-                    return $row->bookHasCopies()->first()->default_borrow_price;
-                })
+              
                 ->filterColumn('name', function ($query, $keyword) {
                         $query->where('name',"LIKE","%".$keyword."%");
                 })
                 ->rawColumns(['action'])
                 ->toJson();
         }
+      
        
         return view("books.list", $data);
     }
@@ -99,7 +99,7 @@ class BookController extends Controller
             if(isset($request->no_copies) && !empty(intval($request->no_copies)))
             for($x = 0 ; $x < intval($request->no_copies); $x++)
             {
-                $createdData->bookHasCopies()->create(["default_borrow_price" => $request->default_borrow_price]);
+                $createdData->bookHasCopies()->create([]);
             }
 
             /**
@@ -191,7 +191,7 @@ class BookController extends Controller
 
 
             if($request->ajax())
-            return $this->responseSuccess( $createdData->name . " inserted successfully",$createdData);
+            return $this->responseSuccess( $createdData->name . " updated successfully",$createdData);
 
             return redirect()->back()
                 ->with("message", $createdData->name . " inserted successfully")

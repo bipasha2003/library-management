@@ -6,6 +6,7 @@ use App\Models\CardHolder;
 use App\Traits\WithResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use DataTables;
 
 use function Laravel\Prompts\confirm;
 
@@ -29,7 +30,22 @@ class CardHolderController extends Controller
     {
         $data["header"] = $this->header;
         $data["breadcrums"] = ["Home", "Users", "List"];
-        $data["rows"] = CardHolder::all();
+        $data["rows"] = [];
+        if(\request()->ajax()){
+            $data = CardHolder::select("*");
+            return DataTables::eloquent($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $actionBtn = view("components.users.user-action-buttons",["row" => $row])->render();
+                    return $actionBtn;
+                })
+                //->filterColumn('name', function ($query, $keyword) {
+                     //   $query->where('name',"LIKE","%".$keyword."%");
+               // })
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+       
         return view("users.list", $data);
     }
 

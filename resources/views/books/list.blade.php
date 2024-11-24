@@ -21,26 +21,7 @@
                                         </tr>
                                     </thead>
                                      <tbody>
-                                    @foreach($rows as $row)                          
-                                        <tr>
-                                            <td>{{$row->id}}</td>
-                                            <td>{{$row->name}}</td>
-                                            <td>{{$row->author}}</td>
-                                            <td>{{$row->publisher}}</td>
-                                            <td>{{$row->price}}</td>
-                                            <td>{{$row->bookHasCopies()->count()}} <small class="badge bg-warning text-dark border shadow-sm " > available {{$row->bookHasCopies()->sum("status")}} </small></td>
-                                            <td>{{$row->bookHasCopies()->first()->default_borrow_price}} </td>
-                                            <td>
-                                               
-                                            </td>
-
-                                           
-                                            <td>
-                                            
-                                            
-                                            </td>
-                                        </tr>   
-                                        @endforeach                                     
+                                                      
                                     </tbody>
                                 </table>
                             </div>

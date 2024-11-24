@@ -15,4 +15,10 @@ class BookIssue extends Model
         return $this->hasMany(BookIssueHasCopies::class,"book_issue_id","id");
         
     }
+
+    public function book()
+    {
+        return $this->belongsTo(BookIssue::class);
+        
+    }
 }

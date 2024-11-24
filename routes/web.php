@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookIssueController;
 use App\Http\Controllers\CardHolderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -40,7 +41,11 @@ Route::middleware('auth')->group(function () {
      */
     Route::resource("users",CardHolderController::class);
 
+    /**
+     * BookIssue routes
+     */
 
+     Route::resource("book_Issue", BookIssueController::class);
 
 
 

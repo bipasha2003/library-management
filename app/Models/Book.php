@@ -22,4 +22,10 @@ class Book extends Model
         return $this->hasMany(BookHasPrice::class,"book_id","id");
         
     }
+
+    public function booksIssue()
+    {
+        return $this->hasMany(BookIssue::class,"book_id","id");
+        
+    }
 }

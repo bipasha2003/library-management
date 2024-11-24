@@ -8,6 +8,9 @@
                         </small>
                     </div>
                 @endif  
+                <div>
+               Create New Book <a href="{{ route('books.index') }}" class="btn btn-primary btn-sm text-right" >Go to List </a>
+                </div>
  <form method="POST" id="bookCreateForm" action="{{ route('books.store') }}" enctype="multipart/form-data" class="form p-3" > 
  @csrf              
   <div class="form-row">
@@ -64,7 +67,7 @@
     <div class="col-md-4 mb-3">
       <label for="validationDefault03">Default Rent</label>
       <input type="text" class="form-control" name="default_borrow_price" id="default_borrow_price" value="{{ old('default_borrow_price') }}"  required>
-      @error('price')
+      @error('default_borrow_price')
          <small for="" class="text-danger p-1">{{ $message }}</small>
       @enderror
     </div>
@@ -124,6 +127,9 @@
                             },
                             price: {
                                 required: true
+                            },
+                            default_borrow_price: {
+                                required: true
                             }
 
                         
@@ -143,6 +149,7 @@
                                 required: "Price required",
                                
                             }
+
                                  }
                     })
 

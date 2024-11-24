@@ -21,4 +21,49 @@ $(document).ready( function () {
             "targets": "_all"
           }]
     });
+
+    var url = $("#userList").data("url")
+    $('#userList').DataTable({
+        responsive: true,
+        ajax: url,
+        processing: true,
+        serverSide: true,
+        columns: [
+            { data: 'id' , name: "Id", searchable:false  },
+            { data: 'name' ,name: "Name" , searchable: true },
+            { data: 'age' , name: "Age" },
+            { data: 'email',name: "Email" },
+            { data: 'contact',name: "Contact", searchable:false  },
+            { data: 'address',name: "Address", searchable:true },
+            { data: 'action', name: "Action", searchable:false, }
+        ],
+        columnDefs: [{
+            "defaultContent": "-",
+            "targets": "_all"
+          }]
+    });
+    
+    var url = $("#bookIssue").data("url")
+    $('#bookIssue').DataTable({
+        responsive: true,
+        ajax: url,
+        processing: true,
+        serverSide: true,
+        columns: [
+            { data: 'id' , name: "Id", searchable:false  },
+            { data: 'books' , name: "Book", searchable:true  },
+            { data: 'card_holder_id' , name: "Card Holder", searchable:true  },
+            { data: 'from_date',name: "FroM Date" },
+            { data: 'to_date',name: "To Date", searchable:false  },
+            { data: 'total',name: "Total Amount", searchable:true },
+            { data: 'paid',name: "Total Paid", searchable:false },
+            { data: 'due',name: "Due", searchable:false},
+            { data: 'action', name: "Action", searchable:false, }
+        ],
+
+        columnDefs: [{
+            "defaultContent": "-",
+            "targets": "_all"
+          }]
+    });
 })

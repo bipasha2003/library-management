@@ -10,17 +10,17 @@
 
         @endif
         <div>
-            Issue new book<a href="" class="btn btn-primary btn-sm text-right">Go to List </a>
+            Issue new book<a href="{{ route('book_issue.index') }}" class="btn btn-primary btn-sm text-right">Go to List </a>
         </div>
-        <form method="POST" id="bookIssueCreateForm" action="{{ route('book_Issue.store') }}" enctype="multipart/form-data" class="form p-3">
+        <form method="POST" id="bookIssueCreateForm" action="{{ route('book_issue.store') }}" enctype="multipart/form-data" class="form p-3">
             @csrf
 
             <div class="form-row mb-2">
-            <div><label for="user " class="pl-2 ml-1" > User </label></div>
+            <div><label for="user " class="pl-2 ml-1" > card Holder </label></div>
                 <div class="col-md-12 d-flex align-items-center books_col m-1">
                    
                     <select class="form-control select" name="user" id="user">
-                        <option selected>Select user</option>
+                        <option selected>Select Card Holder</option>
                         @foreach($users as $user)
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
@@ -125,7 +125,7 @@
                         prices = prices.filter(x => x != undefined)
 
                     }
-                    if (prices.length == 0)
+                    else
                         prices[0] = bookDetails.default_borrow_price
 
                     rates.push(prices[0] * differenceInDays)

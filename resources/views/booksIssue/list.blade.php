@@ -3,7 +3,7 @@
     <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Book Issue <a href="{{route('book_Issue.create')}}" class="btn btn-primary btn-sm text-right" > <i class="fa fa-plus-circle" ></i> Add new</a>
+                                Book Issue <a href="{{route('book_issue.create')}}" class="btn btn-primary btn-sm text-right" > <i class="fa fa-plus-circle" ></i> Add new</a>
                             </div>
                             <div class="card-body border" >
                                 <table id="bookIssue" class="table" data-url="{{route('get-book_Issue-api')}}" >

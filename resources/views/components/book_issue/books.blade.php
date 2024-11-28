@@ -1,5 +1,8 @@
+
 <div>
-    @foreach($row->bookIssueHasCopies as $books)
-    <span class="badge bg-danger text-white border shadow-sm" >{{$books->book_copy_id}} </span>
-    @endforeach
+
+@foreach($books as $book)
+  <span class="badge bg-success text-white" >{{@$book->name}}</span>
+@endforeach
 </div>
+

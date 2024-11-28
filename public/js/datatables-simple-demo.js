@@ -44,16 +44,16 @@ $(document).ready( function () {
     });
     
     var url = $("#bookIssue").data("url")
-    $('#bookIssue').DataTable({
+   var table = $('#bookIssue').DataTable({
         responsive: true,
         ajax: url,
         processing: true,
         serverSide: true,
         columns: [
             { data: 'id' , name: "Id", searchable:false  },
-            { data: 'books' , name: "Book", searchable:true  },
-            { data: 'card_holder_id' , name: "Card Holder", searchable:true  },
-            { data: 'from_date',name: "FroM Date" },
+            { data: 'books' , name: "Book", searchable:false  },
+            { data: 'card_holder.name' , name: "Card Holder", searchable:true  },
+            { data: 'from_date',name: "From Date" },
             { data: 'to_date',name: "To Date", searchable:false  },
             { data: 'total',name: "Total Amount", searchable:true },
             { data: 'paid',name: "Total Paid", searchable:false },
@@ -65,5 +65,16 @@ $(document).ready( function () {
             "defaultContent": "-",
             "targets": "_all"
           }]
+    });
+
+    function printTableData() {
+        var data = table.rows().data().toArray(); // Get all rows data
+        console.log(data);  // Print to console
+        console.log(JSON.stringify(data, null, "data")); // Alert with formatted JSON
+    }
+    
+    // Example: Call the function to print data after the table is drawn
+    $('#bookIssue').on('draw.dt', function() {
+        printTableData();
     });
 })

@@ -10,19 +10,20 @@
 
         @endif
         <div>
-            Issue new book<a href="" class="btn btn-primary btn-sm text-right">Go to List </a>
+        Edit Issued book<a href="{{ route('book_Issue.index') }}" class="btn btn-primary btn-sm text-right">Go to List </a>
         </div>
-        <form method="POST" id="bookIssueCreateForm" action="{{ route('book_Issue.store') }}" enctype="multipart/form-data" class="form p-3">
-            @csrf
+        <form method="POST" id="bookIssueEditForm" action="{{ route('book_Issue.update', ['book_Issue' => $book_Issue->id]) }}" enctype="multipart/form-data" class="form p-3">    
+        @csrf
+        @method('PUT') 
 
             <div class="form-row mb-2">
-            <div><label for="user " class="pl-2 ml-1" > User </label></div>
+            <div><label for="user " class="pl-2 ml-1" > Card Holder </label></div>
                 <div class="col-md-12 d-flex align-items-center books_col m-1">
                    
-                    <select class="form-control select" name="user" id="user">
-                        <option selected>Select user</option>
+                <select class="form-control select" name="user" id="user" >
+                        <option selected>Select Card Holder</option>
                         @foreach($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        <option value="{{ $user->id }}" @if($book_Issue->card_holder_id == $user->id) selected @endif >{{ $user->name }}</option>
                         @endforeach
                         <option value=""></option>
                     </select>
@@ -30,23 +31,24 @@
                 </div>
             </div>
             <div class="form-row">
+                @foreach($book_Issue->books() as $book)
                 <div class="col-md-12 d-flex align-items-center books_col m-1">
-                    <select class="form-control book" name="book">
+                    <select class="form-control book" name="book" disabled>
                         <option selected value="0">Open this select Books</option>
-                        @foreach($books as $book)
-                        <option value="{{ $book->id }}">{{ $book->name }}</option>
+                        @foreach($books as $bk)
+                        <option value="{{ $book->id }}" @if($book->id == $bk->id) selected @endif>{{ $book->name }}</option>
                         @endforeach
                     </select>
-                    <button class="btn btn-danger ms-2 add_row" type="button">+</button>
                     <h4 class="book_details text-success ml-3"></h4>
                 </div>
+                @endforeach
             </div>
 
 
             <div class="row">
                 <div class="col-xl-6">
                     <label for="">From Date</label>
-                    <input type="date" class="form-control date" name="from_date" id="from_date" value="" required >
+                    <input type="date" class="form-control date" name="from_date" id="from_date" value="{{ $book_Issue->from_date }}" required >
                     <p class="text-danger" id="from_error"></p>
                     @error('from_date')
                     <small for="" class="text-danger p-1">{{ $message }}</small>
@@ -54,7 +56,7 @@
                 </div>
                 <div class="col-xl-6">
                     <label for="">To Date</label>
-                    <input type="date" class="form-control date" name="to_date" id="to_date" value=""  required>
+                    <input type="date" class="form-control date" name="to_date" id="to_date" value="{{ $book_Issue->to_date }}"  required>
                     <p class="text-danger" id="to_error"></p>
                      @error('to_date')
                     <small for="" class="text-danger p-1">{{ $message }}</small>
@@ -65,21 +67,21 @@
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label for="validationDefault03">Total Amount</label>
-                    <input type="text" class="form-control" name="total" id="total" value="" required disabled>
+                    <input type="text" class="form-control" name="total" id="total" value="{{ $book_Issue->total }}" required disabled>
                     @error('total')
                     <small for="" class="text-danger p-1">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="validationDefault03">Total Paid</label>
-                    <input type="text" class="form-control" name="paid" id="paid" value="" required>
+                    <input type="text" class="form-control" name="paid" id="paid" value="{{ $book_Issue->paid }}" required>
                     @error('paid')
                     <small for="" class="text-danger p-1">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="validationDefault03">Due</label>
-                    <input type="text" class="form-control" disabled name="due" id="due" value="" required>
+                    <input type="text" class="form-control" disabled name="due" id="due" value="{{ $book_Issue->due }}" required>
                     @error('due')
                     <small for="" class="text-danger p-1">{{ $message }}</small>
                     @enderror
@@ -93,8 +95,8 @@
     <script>
         $(document).ready(function() {
 
+           
             var books = @json($books->toArray());
-
             const calculateTotal = () => {
 
                 if ($(".book").val() == 0)
@@ -137,7 +139,7 @@
                 if (price < 0) {
                     price = 0;
                 }
-                $('#total').val(price);
+                $('#total').val(price).trigger("change");
             }
 
             $("#calculate").on("click", function() {
@@ -196,23 +198,23 @@
             })
 
              const calculateDue = () => {
-              const total = parseInt($('#total').val()) 
-              const paid = parseInt($('#paid').val())  
-              const due = total - paid;
-              $('#due').val(due > 0 ? due : 0);    
-          };
+                const total = parseInt($('#total').val()) 
+                const paid = parseInt($('#paid').val())  
+                const due = total - paid;
+                $('#due').val(due > 0 ? due : 0);    
+              };
     
     
-          $('#paid').on('input', calculateDue);
+           $('#paid').on('change', calculateDue);
     
          
-          $('#total').on('input', calculateDue);
+           $('#total').on('change', calculateDue);
 
 
 
             let bookIds = []
 
-            $("#bookIssueCreateForm").on("submit", function(e) {
+            $("#bookIssueEditForm").on("submit", function(e) {
                 e.preventDefault();
 
 
@@ -244,21 +246,17 @@
                 })
 
                 let payload = {
-                    book_ids: $(".book").map(function(){
-                                 return $(this).val()
-                              }).get(),
                     card_holder_id:  $("#user").val(),
                     from_date:  $("#from_date").val(),
                     to_date:  $("#to_date").val(),
                     total:  $("#total").val(),
                     paid:  $("#paid").val(),
-                    due:  $("#due").val()
-                    
+                    due:  $("#due").val()                   
                 }
 
                 $.ajax({
                     url: $(this).prop("action"),
-                    method: "POST",
+                    method: "PUT",
                     data: {
                         _token: $("input[name='_token']").val(),
                        ...payload

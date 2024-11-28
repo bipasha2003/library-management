@@ -19,17 +19,17 @@
                     </a>
                     <a class="nav-link   @if(request()->routeIs("users.index")) active @endif" href="{{route('users.index')}}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        User List
+                        Card Holder List
                     </a>
-                    <a class="nav-link @if(request()->routeIs("users.create") active @endif" href="{{route('users.create')}}">
+                    <a class="nav-link @if(request()->routeIs("xusers.create") active @endif" href="{{route('users.create')}}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Add new user
                     </a>
-                    <a class="nav-link   @if(request()->routeIs("book_Issue.create")) active @endif" href="{{route('book_Issue.create')}}">
+                    <a class="nav-link   @if(request()->routeIs('book_issue.create')) active @endif" href="{{route('book_issue.create')}}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Issue Books
                     </a>
-                    <a class="nav-link   @if(request()->routeIs("book_Issue.index")) active @endif" href="{{route('book_Issue.index')}}">
+                    <a class="nav-link   @if(request()->routeIs('book_issue.index')) active @endif" href="{{route('book_issue.index')}}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Book Issued List
                     </a>

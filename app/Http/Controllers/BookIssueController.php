@@ -7,8 +7,9 @@ use App\Models\BookIssue;
 use App\Models\CardHolder;
 use Illuminate\Http\Request;
 use App\Traits\WithResponse;
+use Carbon\Carbon;
 use DataTables;
-
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -23,7 +24,9 @@ class BookIssueController extends Controller
         "paid" => "required",
         "due" => "required",
         "card_holder_id"=>"required",
-        "book_ids" => "required"
+        "book_ids" => "required",
+        "return_at" => "required",
+        "issued_at" => "required"
         
     ];
     /**
@@ -33,28 +36,33 @@ class BookIssueController extends Controller
     {
         $data["header"] = $this->header;
         $data["breadcrums"] = ["Home", "Book Issue", "List"];
+        
 
         $data["rows"] = [];
+       
         if(\request()->ajax()){
-            $data = BookIssue::select("*");
-            
-            return DataTables::eloquent($data)
+            $data = BookIssue::with("bookIssueHasCopies")->with("CardHolder");
+           
+            $a= DataTables::eloquent($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
                     $actionBtn = view("components.book_issue.action-buttons",["row" => $row])->render();
                     return $actionBtn;
                 })
                 ->addColumn('books', function($row){
-                    $actionBtn = view("components.book_issue.books",["row" => $row])->render();
+                  
+                    $actionBtn = view("components.book_issue.books",["books" => $row->books()])->render();
                     return $actionBtn;
                    
                 })
               
                 ->filterColumn('name', function ($query, $keyword) {
-                        $query->where('name',"LIKE","%".$keyword."%");
+                 $query->where('name',"LIKE","%".$keyword."%");
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'books'])
                 ->toJson();
+
+                return $a;
                
         }
 
@@ -157,15 +165,17 @@ class BookIssueController extends Controller
      */
     public function edit(string $id)
     {
-        $book = Book::find($id);
+        $book_Issue = BookIssue::find($id);
 
-        if (empty($book)) {
+        if (empty($book_Issue)) {
             abort(404);
         }
 
         $data["header"] = $this->header;
         $data["breadcrums"] = ["Home", "BookIsue", "Edit"];
-        $data["book"] = $book;
+        $data["book_Issue"] = $book_Issue;
+        $data["books"]= Book::with("bookHasPrices")->with("bookHasCopies")->get();
+        $data["users"]= CardHolder::all();
         return view("booksIssue.edit", $data);
     }
 
@@ -174,7 +184,44 @@ class BookIssueController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            unset($this->rules["book_ids"]);
+            $validated = Validator::make($request->all(), $this->rules);
+
+            if ($validated->fails()) {
+
+                if($request->ajax())
+                return $this->responseFailed("Data could not be validated!",$validated->errors());
+
+                return redirect()->back()
+                    ->withErrors($validated->errors())
+                    ->withInput()
+                    ->with("message", "Data could not be validated!");
+            }
+            
+            /**
+             * Update a  bookissue
+             */
+            $updatedData = BookIssue::find($id);
+            $updatedData->update($validated->validated());
+
+
+            if($request->ajax())
+            return $this->responseSuccess( $updatedData->name . " updated successfully",$updatedData);
+
+            return redirect()->back()
+                ->with("message", $updatedData->name . " updated successfully")
+                ->withInput();
+
+        } catch (\Throwable $th) {
+
+            if($request->ajax())
+            return $this->responseError("Data could not be inserted!. ".$th->getMessage()   );
+
+            return redirect()->back()
+                ->with("message", "Data could not be inserted!")
+                ->withInput();
+        }
     }
 
     /**
@@ -206,4 +253,61 @@ class BookIssueController extends Controller
                 ->with("message", "Data could not be deleted! " . $th->getMessage());
         }
     }
+
+    public function returnBook(string $id)
+    {     
+        $book_Issue = BookIssue::find($id);
+        $data["header"] = $this->header;
+        $data["breadcrums"] = ["Home", "BookIssue", "Return"];
+        $data["book_Issue"] = $book_Issue;
+        $data["books"] = Book::with("bookHasPrices")->with("bookHasCopies")->get();
+        $data["users"] = CardHolder::all(); 
+        
+        $from_date= Carbon::parse($book_Issue->from_date);
+        $to_date= Carbon::parse($book_Issue->to_date) ;
+
+        $diffInDays = $to_date->diffInDays($from_date);
+        $data["diffInDays"]= $diffInDays; 
+         
+        $prices=[];
+        $books = $book_Issue->books();
+        foreach($books as $book)
+        {
+            if($book->bookHasPrices()->count() > 0)
+            {
+               foreach($book->bookHasPrices as $price){
+                $diff = $diffInDays - intval($price->no_of_days_minimum);
+
+                if($diff >= 0){
+                    $prices[$diff] = $price->rate_per_day;
+                }
+               }
+                $keys = array_keys($prices);
+                sort($keys);
+
+                $book->sub_total = $prices[$keys[0]] * $diffInDays;
+                $book->rate_applied  = $prices[$keys[0]];
+
+            }
+            else
+            {
+                $book->sub_total = $book->default_borrow_price * $diffInDays;
+                $book->rate_applied  = $book->default_borrow_price;
+            }
+               
+        }
+        $data["books"] = $books;
+
+
+        return view("booksIssue.return", $data);       
+
+    }
+
+
+    public function issuedReturn(Request $request,string $id)
+    {     
+    
+    }
+    
+
 }

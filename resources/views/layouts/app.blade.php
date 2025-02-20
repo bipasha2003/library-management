@@ -32,7 +32,9 @@
             <x-side-bar>
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <div class="container-fluid px-4">
+                    {{ $slot }}
+                </div>
             </main>
             </x-side-bar>
 

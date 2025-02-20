@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('book_has_copies', function (Blueprint $table) {
             $table->id();
-            $table->string("status");
-            $table->integer("book-id");
-            $table->integer("default_borrow_price");
+            $table->string("status")->default(1);
+            $table->integer("book_id");
+           
             $table->timestamps();
         });
     }

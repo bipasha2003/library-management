@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookIssueController;
+use App\Http\Controllers\CardHolderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -37,8 +39,17 @@ Route::middleware('auth')->group(function () {
     /**
      * User routes
      */
-    Route::resource("users",UserController::class);
+    Route::resource("users",CardHolderController::class);
 
+    /**
+     * BookIssue routes
+     */
+
+     Route::resource("book_issue", BookIssueController::class);
+
+     Route::get('/book_issue/return/{id}', [BookIssueController::class, 'returnBook'])->name('book_issue.return');
+
+     Route::post('/book_issue/return/{id}', [BookIssueController::class, 'issuedReturn'])->name('book_issue.issuedReturn');
 
 
 

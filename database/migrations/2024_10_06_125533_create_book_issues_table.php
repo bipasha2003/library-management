@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('book_issues', function (Blueprint $table) {
             $table->id();
-            $table->integer("no_of_days");
-            $table->integer("value");
+            $table->integer("due");
+            $table->integer("paid");
             $table->integer("total");
             $table->integer("card_holder_id");
             $table->string("status");
-            $table->integer("issued_at");
-            $table->integer("returned_at");
+            $table->string("issued_at")->nullable();
+            $table->string("returned_at")->nullable();
+            $table->string("from_date");
+            $table->string("to_date");
             $table->timestamps();
         });
     }

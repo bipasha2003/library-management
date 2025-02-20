@@ -8,42 +8,32 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
-                    <div class="sb-sidenav-menu-heading">Resources</div>
-                    <a class="nav-link collapsed @if(request()->routeIs('books.*')) active @endif" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="{{request()->routeIs('books.*')}}" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i  class="fas fa-columns"></i></div>
-                        Books
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+
+                    <a class="nav-link  @if(request()->routeIs("books.index")) active @endif" href="{{route('books.index')}}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Book List
                     </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link  @if(request()->routeIs("books.create")) active @endif" href="{{route('books.create')}}">Create Books</a>
-                            <a class="nav-link  @if(request()->routeIs("books.index")) active @endif" href="{{route('books.index')}}" >Book List</a>
-                        </nav>
-                    </div>
-                    <a class="nav-link collapsed @if(request()->routeIs('users.*')) active @endif" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                        Users
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <a class="nav-link  @if(request()->routeIs("books.create")) active @endif" href="{{route('books.create')}}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Add a new book
                     </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link @if(request()->routeIs("users.create")) active @endif" href="{{route('users.create')}}">Create Users</a>
-                            <a class="nav-link   @if(request()->routeIs("users.index")) active @endif" href="{{route('users.index')}}">User List</a>
-                        </nav>
-                    </div>
-                    <div class="sb-sidenav-menu-heading">Application</div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#application" aria-expanded="false" aria-controls="application">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Issue
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <a class="nav-link   @if(request()->routeIs("users.index")) active @endif" href="{{route('users.index')}}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Card Holder List
                     </a>
-                    <div class="collapse" id="application" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="layout-static.html">Book Issue</a>
-                            <a class="nav-link" href="layout-sidenav-light.html">Issue History</a>
-                            <a class="nav-link" href="layout-sidenav-light.html">Return Book</a>
-                        </nav>
-                    </div>
+                    <a class="nav-link @if(request()->routeIs("xusers.create") active @endif" href="{{route('users.create')}}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Add new user
+                    </a>
+                    <a class="nav-link   @if(request()->routeIs('book_issue.create')) active @endif" href="{{route('book_issue.create')}}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Issue Books
+                    </a>
+                    <a class="nav-link   @if(request()->routeIs('book_issue.index')) active @endif" href="{{route('book_issue.index')}}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Book Issued List
+                    </a>
+                 
                 </div>
             </div>
             <div class="sb-sidenav-footer">

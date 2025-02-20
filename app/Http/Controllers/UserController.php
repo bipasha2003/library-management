@@ -10,22 +10,17 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public $header = "Users";
+    
     public function index(Request $request)
     {
-        $data["header"] = $this->header;
-        $data["breadcrums"] = ["Home","Users","List"];
-        return view("users.list",$data); 
-    }
+        }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $data["header"] = $this->header;
-        $data["breadcrums"] = ["Home","Users","Create"];
-        return view("users.create",$data);
+       
     }
 
     /**
@@ -49,13 +44,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $cardHolder = CardHolder::find($id);
-        if(empty($cardHolder))
-        abort(404);
-
-        $data["header"] = $this->header;
-        $data["breadcrums"] = ["Home","Users","Edit"];
-        return view("users.edit",$data);
+        
     }
 
     /**

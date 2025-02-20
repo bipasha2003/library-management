@@ -10,9 +10,9 @@ class BookIssueHasCopies extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function bookHasCopies()
+    public function bookHasCopy()
     {
-        return $this->belongsTo(BookIssueHasCopies::class);
+        return $this->belongsTo(BookHasCopies::class,"book_copy_id","id")->with("book");
         
     }
 }

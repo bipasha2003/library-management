@@ -18,6 +18,9 @@ RUN docker-php-ext-install pdo pdo_mysql gd
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Copy Laravel project files
 COPY . .
 

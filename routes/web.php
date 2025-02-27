@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
      * BookIssue routes
      */
 
-     Route::resource("book_issue", BookIssueController::class);
+    //  Route::resource("book_issue", BookIssueController::class);
 
      Route::get('/book_issue/return/{id}', [BookIssueController::class, 'returnBook'])->name('book_issue.return');
 

@@ -38,26 +38,20 @@ Run the following inside the Laravel container:
 ```sh
 docker exec -it laravel_app bash
 composer install
-cp .env.example .env
-php artisan key:generate
 chmod -R 775 storage bootstrap/cache
-php artisan migrate
-exit
-```
-
----
-
-## 🛠️ 6. Set Correct Permissions
-Run the following inside the Laravel container:
-
-```sh
-docker exec -it laravel_app bash
 chown -R www-data:www-data /var/www/html
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+php artisan key:generate
+cp .env.example .env
+php artisan migrate
+php artisan serve
 exit
 ```
 
 ---
+## 🎉 Done!
+Your Laravel application is now running inside Docker with Apache, MySQL, and phpMyAdmin! 
+
 
 ## ✅ Access the Application
 - **Laravel App:** [http://localhost:8000](http://localhost:8000)
@@ -67,7 +61,7 @@ exit
   - **Password:** `root`
 
 ---
-
+---
 ## 🔄 General Instructions for managing Containers
 
 ### Start Containers:
@@ -97,5 +91,84 @@ docker logs laravel_app
 
 ---
 
-## 🎉 Done!
-Your Laravel application is now running inside Docker with Apache, MySQL, and phpMyAdmin! 🚀
+## 🔄 General Instructions for managing Laravel app
+
+### Clear Cache:
+```sh
+php artisan cache:clear
+```
+
+### Clear Config Cache:
+```sh
+php artisan config:clear
+```
+
+### Clear Route Cache:
+```sh
+php artisan route:clear
+```
+
+### Clear View Cache:
+```sh
+php artisan view:clear
+```
+
+### Run Migrations:
+```sh
+php artisan migrate
+```
+
+### Rollback Migrations:
+```sh
+php artisan migrate:rollback
+```
+
+### Seed Database:
+```sh
+php artisan db:seed
+```
+
+### Run Tests:
+```sh
+php artisan test
+```
+
+### Create Controller:
+```sh
+php artisan make:controller ControllerName
+```
+
+### Create Model:
+```sh
+php artisan make:model ModelName
+```
+
+### Create Migration:
+```sh
+php artisan make:migration create_table_name_table
+```
+
+### Create Seeder:
+```sh
+php artisan make:seeder SeederName
+```
+
+### Create Factory:
+```sh
+php artisan make:factory FactoryName
+```
+
+### Create Middleware:
+```sh
+php artisan make:middleware MiddlewareName
+```
+
+### Create Request:
+```sh
+php artisan make:request RequestName
+```
+
+### Create Resource:
+```sh
+php artisan make:resource ResourceName
+```
